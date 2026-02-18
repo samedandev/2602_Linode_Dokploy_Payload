@@ -27,6 +27,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    unoptimized: true,
     domains: [
       'payload-cms-application-fr1jdt-b8667c-172-232-62-38.traefik.me',
       'payload-cms-payload-vps-1qdv4j-97fcc3-176-169-113-147.traefik.me',
