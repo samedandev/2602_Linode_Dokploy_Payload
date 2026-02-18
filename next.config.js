@@ -27,6 +27,11 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    domains: [
+      'payload-cms-application-fr1jdt-b8667c-172-232-62-38.traefik.me',
+      'payload-cms-payload-vps-1qdv4j-97fcc3-176-169-113-147.traefik.me',
+      'pub-c4022ec5f75d4f5583d2335dead3195d.r2.dev',
+    ],
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
