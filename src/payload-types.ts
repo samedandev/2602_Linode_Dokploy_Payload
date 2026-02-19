@@ -72,6 +72,9 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    brands: Brand;
+    products: Product;
+    software: Software;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +97,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    software: SoftwareSelect<false> | SoftwareSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -213,6 +219,26 @@ export interface Page {
    */
   generateSlug?: boolean | null;
   slug: string;
+  brand?: (string | null) | Brand;
+  product?:
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'software';
+        value: string | Software;
+      } | null);
+  softwareOptions?: {
+    price?: number | null;
+    systemRequirements?: string | null;
+    type?: ('daw' | 'synth' | 'pitchCorrection') | null;
+  };
+  instrumentOptions?: {
+    price?: number | null;
+    type?: ('guitar' | 'bass' | 'drums' | 'electronicInstrument') | null;
+    strings?: number | null;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -780,6 +806,55 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  name: string;
+  brand?: (string | null) | Brand;
+  stock?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "software".
+ */
+export interface Software {
+  id: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  isDiscontinued?: boolean | null;
+  name: string;
+  brand?: (string | null) | Brand;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -989,6 +1064,18 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'brands';
+        value: string | Brand;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'software';
+        value: string | Software;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1097,6 +1184,22 @@ export interface PagesSelect<T extends boolean = true> {
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
+  brand?: T;
+  product?: T;
+  softwareOptions?:
+    | T
+    | {
+        price?: T;
+        systemRequirements?: T;
+        type?: T;
+      };
+  instrumentOptions?:
+    | T
+    | {
+        price?: T;
+        type?: T;
+        strings?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1352,6 +1455,43 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  generateSlug?: T;
+  slug?: T;
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  generateSlug?: T;
+  slug?: T;
+  name?: T;
+  brand?: T;
+  stock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "software_select".
+ */
+export interface SoftwareSelect<T extends boolean = true> {
+  generateSlug?: T;
+  slug?: T;
+  isDiscontinued?: T;
+  name?: T;
+  brand?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
